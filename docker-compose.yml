@@ -1,0 +1,46 @@
+services:
+  vetsys.api:
+    image: ${DOCKER_REGISTRY-}vetsysapi
+    build:
+      context: .
+      dockerfile: Vetsys.API/Dockerfile
+    depends_on:
+      - db
+    networks:
+      - vetsys-network
+
+
+  db:
+    image: postgres:16
+    container_name: vetsys-db
+    environment:
+      POSTGRES_USER: vetsys_user
+      POSTGRES_PASSWORD: MiPass123!
+      POSTGRES_DB: vetsysdb
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vetsys_user -d vetsysdb"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+    networks:
+      - vetsys-network
+    volumes:
+      - vetsys-db-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: vetsys-adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    networks:
+      - vetsys-network
+
+networks:
+  vetsys-network:
+
+volumes:
+  vetsys-db-data:

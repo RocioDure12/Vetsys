@@ -1,0 +1,6 @@
+@Vetsys.API_HostAddress = http://localhost:5053
+
+GET {{Vetsys.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
