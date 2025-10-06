@@ -13,7 +13,7 @@ using Vetsys.API.Modules.VaccinesTypes.UseCases.CreateVaccineType;
 using Vetsys.API.Modules.VaccinationRecords.Contracts;
 using Vetsys.API.Modules.VaccinationRecords.UseCases.CreateVaccinationRecord;
 using Vetsys.API.Modules.VaccinationRecords.Services;
-using Vetsys.API.Modules.VaccinationRecords.UseCases.NotifyPendingVaccination;
+using Vetsys.API.Modules.VaccinationRecords.UseCases.FindPendingVaccination;
 using MassTransit;
 using Vetsys.API.Modules.Notifications.Contracts;
 using Vetsys.API.Modules.Notifications.Services;    
@@ -40,7 +40,7 @@ builder.Services.AddScoped<CreateCustomerUseCase>();
 builder.Services.AddScoped<DeleteCustomerUseCase>();
 builder.Services.AddScoped<CreateVaccineTypeUseCase>();
 builder.Services.AddScoped<CreateVaccinationRecordUseCase>();
-builder.Services.AddScoped<NotifyPendingVaccinationUseCase>();  
+builder.Services.AddScoped<FindPendingVaccinationUseCase>();  
 builder.Services.AddScoped<SendExpiratedVaccineEmailUseCase>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 

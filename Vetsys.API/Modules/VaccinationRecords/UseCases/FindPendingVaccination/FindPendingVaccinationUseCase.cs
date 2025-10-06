@@ -8,16 +8,16 @@ using Vetsys.API.Modules.Customers.Contracts;
 using Vetsys.API.Modules.Notifications.UseCases.SendExpiratedVaccineEmail;
 using MassTransit;
 
-namespace Vetsys.API.Modules.VaccinationRecords.UseCases.NotifyPendingVaccination
+namespace Vetsys.API.Modules.VaccinationRecords.UseCases.FindPendingVaccination
 {
-    public class NotifyPendingVaccinationUseCase
+    public class FindPendingVaccinationUseCase
     {
         private readonly IVaccinationRecordRepository _repository;
         private readonly IPetRepository _petRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public NotifyPendingVaccinationUseCase(
+        public FindPendingVaccinationUseCase(
             IVaccinationRecordRepository repository,
             IPetRepository petRepository,
             ICustomerRepository customerRepository,

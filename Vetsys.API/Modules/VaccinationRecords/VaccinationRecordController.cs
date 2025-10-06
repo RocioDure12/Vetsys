@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Vetsys.API.Modules.VaccinationRecords.DTOs;
 using Vetsys.API.Modules.VaccinationRecords.UseCases.CreateVaccinationRecord;
-using Vetsys.API.Modules.VaccinationRecords.UseCases.NotifyPendingVaccination;
+using Vetsys.API.Modules.VaccinationRecords.UseCases.FindPendingVaccination;
 
 namespace Vetsys.API.Modules.VaccinationRecords
 {
@@ -10,11 +10,11 @@ namespace Vetsys.API.Modules.VaccinationRecords
     public class VaccinationRecordController : ControllerBase
     {
         private readonly CreateVaccinationRecordUseCase _createVaccinationRecordUseCase;
-        private readonly NotifyPendingVaccinationUseCase _notifyPendingVaccinationUseCase;
+        private readonly FindPendingVaccinationUseCase _notifyPendingVaccinationUseCase;
 
         public VaccinationRecordController(
             CreateVaccinationRecordUseCase createVaccinationRecordUseCase,
-            NotifyPendingVaccinationUseCase notifyPendingVaccinationUseCase)
+            FindPendingVaccinationUseCase notifyPendingVaccinationUseCase)
         {
             _createVaccinationRecordUseCase = createVaccinationRecordUseCase;
             _notifyPendingVaccinationUseCase = notifyPendingVaccinationUseCase;

@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Vetsys.API.Modules.VaccinationRecords.UseCases.NotifyPendingVaccination;
+using Vetsys.API.Modules.VaccinationRecords.UseCases.FindPendingVaccination;
 
 
 namespace Vetsys.API.Modules.VaccinationRecords.Workers
@@ -30,7 +30,7 @@ namespace Vetsys.API.Modules.VaccinationRecords.Workers
 
                 using (var scope = _scopeFactory.CreateScope())
                 {
-                    var notifyPendingVaccinationUseCase = scope.ServiceProvider.GetRequiredService<NotifyPendingVaccinationUseCase>();
+                    var notifyPendingVaccinationUseCase = scope.ServiceProvider.GetRequiredService<FindPendingVaccinationUseCase>();
                     await notifyPendingVaccinationUseCase.ExecuteAsync();
                 }
 
