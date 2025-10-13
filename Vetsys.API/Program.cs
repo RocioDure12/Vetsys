@@ -1,29 +1,47 @@
+using FluentValidation;
+using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vetsys.API.Data;
+using Vetsys.API.Modules.Customers;
 using Vetsys.API.Modules.Customers.Contracts;
+using Vetsys.API.Modules.Customers.DTOs;
 using Vetsys.API.Modules.Customers.Services;
-using Vetsys.API.Modules.Pets.Contracts;
-using Vetsys.API.Modules.Pets.Services;
 using Vetsys.API.Modules.Customers.UseCases.CreateCustomer;
 using Vetsys.API.Modules.Customers.UseCases.DeleteCustomer;
-using Vetsys.API.Modules.Pets.UseCases.CreatePet;
-using Vetsys.API.Modules.VaccinesTypes.Contracts;
-using Vetsys.API.Modules.VaccinesTypes.Services;
-using Vetsys.API.Modules.VaccinesTypes.UseCases.CreateVaccineType;
-using Vetsys.API.Modules.VaccinationRecords.Contracts;
-using Vetsys.API.Modules.VaccinationRecords.UseCases.CreateVaccinationRecord;
-using Vetsys.API.Modules.VaccinationRecords.Services;
-using Vetsys.API.Modules.VaccinationRecords.UseCases.FindPendingVaccination;
-using MassTransit;
+using Vetsys.API.Modules.Customers.Validators;
 using Vetsys.API.Modules.Notifications.Contracts;
 using Vetsys.API.Modules.Notifications.Services;    
 using Vetsys.API.Modules.Notifications.UseCases.SendExpiratedVaccineEmail;
+using Vetsys.API.Modules.Pets.Contracts;
+using Vetsys.API.Modules.Pets.Services;
+using Vetsys.API.Modules.Pets.UseCases.CreatePet;
+using Vetsys.API.Modules.VaccinationRecords.Contracts;
+using Vetsys.API.Modules.VaccinationRecords.Services;
+using Vetsys.API.Modules.VaccinationRecords.UseCases.CreateVaccinationRecord;
+using Vetsys.API.Modules.VaccinationRecords.UseCases.FindPendingVaccination;
+using Vetsys.API.Modules.VaccinationRecords.Workers;
+using Vetsys.API.Modules.VaccinesTypes.Contracts;
+using Vetsys.API.Modules.VaccinesTypes.Services;
+using Vetsys.API.Modules.VaccinesTypes.UseCases.CreateVaccineType;
+using Vetsys.API.Shared.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
  
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>();
+});
+
+// Configurar el logging
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,6 +62,11 @@ builder.Services.AddScoped<FindPendingVaccinationUseCase>();
 builder.Services.AddScoped<SendExpiratedVaccineEmailUseCase>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
+
+
+// Registrar el validador de FluentValidation
+builder.Services.AddScoped<IValidator<CustomerCreateDTO>, CustomerCreateDTOValidator>();
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<SendEmailOnVaccinationExpiredEvent>();
@@ -52,7 +75,9 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
-builder.Services.AddHostedService<Vetsys.API.Modules.VaccinationRecords.Workers.NotifyPendingVaccionationWorker>();
+builder.Services.AddHostedService<NotifyPendingVaccionationWorker>();
+builder.Services.AddScoped<ValidationFilter>();
+
 
 var app = builder.Build();
 
@@ -66,6 +91,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 

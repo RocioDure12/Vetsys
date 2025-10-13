@@ -12,17 +12,16 @@ namespace Vetsys.API.Modules.Customers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerController(ICustomerRepository repository) : ControllerBase
+    public class CustomerController(CreateCustomerUseCase createCustomerUseCase, DeleteCustomerUseCase deleteCustomerUseCase) : ControllerBase
     {
-        private readonly CreateCustomerUseCase _createCustomerUseCase = new(repository);
-        private readonly DeleteCustomerUseCase _deleteCustomerUseCase = new(repository);
+        private readonly CreateCustomerUseCase _createCustomerUseCase = createCustomerUseCase;
+        private readonly DeleteCustomerUseCase _deleteCustomerUseCase = deleteCustomerUseCase;
 
         [HttpPost]
         public async Task<IActionResult> Create(CustomerCreateDTO customer)
         {
             await _createCustomerUseCase.ExecuteAsync(customer);
             return Created();
-              
         }
 
         [HttpDelete("{id}")]

@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.Logging;
+using NSubstitute;
 using Vetsys.API.Modules.Customers;
 using Vetsys.API.Modules.Customers.Contracts;
 using Vetsys.API.Modules.Customers.DTOs;
@@ -9,12 +10,14 @@ public class CreateCustomerUseCaseTest
 {
     private ICustomerRepository _customerRepository = null!;  
     private CreateCustomerUseCase _createCustomerUseCase = null!;
+    private ILogger<CreateCustomerUseCase> _logger = null!;
 
     [SetUp]
     public void Setup()
     {
         _customerRepository = Substitute.For<ICustomerRepository>();
-        _createCustomerUseCase = new CreateCustomerUseCase(_customerRepository);
+        _logger = Substitute.For<ILogger<CreateCustomerUseCase>>();
+        _createCustomerUseCase = new CreateCustomerUseCase(_customerRepository, _logger);
     }
 
 

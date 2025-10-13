@@ -34,7 +34,7 @@ namespace Vetsys.API.Modules.VaccinationRecords.Workers
                     await notifyPendingVaccinationUseCase.ExecuteAsync();
                 }
 
-                await Task.Delay(TimeSpan.FromHours(24), stoppingToken); // Ejecuta cada 24 horas
+                await Task.Delay(TimeSpan.FromHours(72), stoppingToken); // Ejecuta cada 72 horas
             }
         }
     }

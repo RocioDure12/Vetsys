@@ -5,14 +5,11 @@ using Vetsys.API.Modules.Customers.Contracts;
 
 namespace Vetsys.API.Modules.Customers.Services
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository(VetsysDbContext context) : ICustomerRepository
     {
 
-        private readonly VetsysDbContext _context;
-        public CustomerRepository(VetsysDbContext context)
-        {
-            _context = context;
-        }
+        private readonly VetsysDbContext _context = context;
+
         public async Task AddAsync(Customer customer)
         {
             await _context.Customers.AddAsync(customer);

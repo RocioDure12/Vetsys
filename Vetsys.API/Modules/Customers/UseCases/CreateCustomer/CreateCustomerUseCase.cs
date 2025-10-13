@@ -11,10 +11,6 @@ namespace Vetsys.API.Modules.Customers.UseCases.CreateCustomer
         private readonly ICustomerRepository _repository = repository;
         private readonly ILogger<CreateCustomerUseCase> _logger = logger;
 
-        public CreateCustomerUseCase(ICustomerRepository repository)
-        {
-            _repository = repository;
-        }
 
         // Método principal del caso de uso
         public async Task ExecuteAsync(CustomerCreateDTO dto)
