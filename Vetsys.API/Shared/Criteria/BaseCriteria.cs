@@ -4,7 +4,7 @@ namespace Vetsys.API.Shared.Criteria
 {
     public class BaseCriteria
     {
-        public required List<FilterCriteria> Filters { get; init; } = new();
+        public  List<FilterCriteria> Filters { get; init; } = new();
 
         // Ordenamiento
         public string? OrderBy { get; set; }

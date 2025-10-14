@@ -14,12 +14,13 @@ namespace Vetsys.API.Shared.Criteria
                     FilterOperator.Equals => $"{filter.PropertyName} == @0",
                     FilterOperator.NotEquals => $"{filter.PropertyName} != @0",
                     FilterOperator.GreaterThan => $"{filter.PropertyName} > @0",
+                    FilterOperator.GreaterThanOrEqual => $"{filter.PropertyName} >= @0",
                     FilterOperator.LessThan => $"{filter.PropertyName} < @0",
+                    FilterOperator.LessThanOrEqual => $"{filter.PropertyName} <= @0", // Nuevo
                     FilterOperator.In => $"@0.Contains({filter.PropertyName})",
                     FilterOperator.NotIn => $"!@0.Contains({filter.PropertyName})",
-                    // Puedes agregar más operadores aquí
+                    FilterOperator.Contains => $"{filter.PropertyName}.Contains(@0)", // Nuevo
                     _ => throw new NotSupportedException($"Operador {filter.Operator} no soportado")
-                    //TODO: Arrojar excepción personalizada (de dominio)
                 };
 
                 query = query.Where(expression, filter.Value);

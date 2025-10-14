@@ -5,8 +5,12 @@
         Equals,
         NotEquals,
         GreaterThan,
+        GreaterThanOrEqual,
         LessThan,
+        LessThanOrEqual,    
         In,
-        NotIn
+        NotIn,
+        Contains            
     }
 }
+    

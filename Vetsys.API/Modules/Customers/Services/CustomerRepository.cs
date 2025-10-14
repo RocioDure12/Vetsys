@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Vetsys.API.Data;
 using Vetsys.API.Modules.Customers.Contracts;
+using Vetsys.API.Shared.Criteria; // <-- Importante para BaseCriteria y CriteriaTranslatorEFCore
 
 namespace Vetsys.API.Modules.Customers.Services
 {
@@ -27,12 +28,6 @@ namespace Vetsys.API.Modules.Customers.Services
 
         }
 
-        public async Task<IEnumerable<Customer>> GetAllAsync()
-        {
-            return await _context.Customers.AsNoTracking().ToListAsync();
-            
-        }
-
         public async Task<Customer?> GetById(Guid id)
         {
             return await _context.Customers.FindAsync(id);
@@ -43,6 +38,21 @@ namespace Vetsys.API.Modules.Customers.Services
         {
              _context.Customers.Update(customer);
             await _context.SaveChangesAsync();
+        }
+
+        // Nuevo método para búsqueda por criterios dinámicos
+        public async Task<IEnumerable<Customer>> FindByCriteriaAsync(BaseCriteria criteria)
+        {
+            var query = _context.Customers.AsQueryable();
+            query = CriteriaTranslatorEFCore.ApplyCriteria(query, criteria);
+            return await query.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<int> CountByCriteriaAsync(BaseCriteria criteria)
+        {
+            var query = _context.Customers.AsQueryable();
+            query = CriteriaTranslatorEFCore.ApplyCriteria(query, criteria);
+            return await query.CountAsync();
         }
     }
 }
