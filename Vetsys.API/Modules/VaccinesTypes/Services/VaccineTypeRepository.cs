@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vetsys.API.Data;
 using Vetsys.API.Modules.VaccinesTypes.Contracts;
+using Vetsys.API.Shared.Criteria;
 
 namespace Vetsys.API.Modules.VaccinesTypes.Services
 {
@@ -38,6 +39,11 @@ namespace Vetsys.API.Modules.VaccinesTypes.Services
         public async Task<VaccineType?> GetByIdAsync(Guid id)
         {
             return await _context.Set<VaccineType>().FindAsync(id);
+        }
+
+        public Task<(IEnumerable<VaccineType> Items, int Count)> FindByCriteriaAsync(BaseCriteria criteria)
+        {
+            throw new NotImplementedException();
         }
     }
 }
